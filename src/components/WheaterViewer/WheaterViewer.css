@@ -1,0 +1,12 @@
+.temperature-min-max-container {
+    display       : flex;
+    flex-direction: column;
+    align-self    : center;
+}
+
+.temperature-container {
+    display       : flex;
+    flex-direction: row;
+    align-self    : left;
+    width         : 238px;
+}

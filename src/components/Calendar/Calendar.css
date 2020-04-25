@@ -1,0 +1,62 @@
+table {
+    table-layout: fixed;
+    width       : 100%;
+    height      : 100%;
+}
+
+thead {
+    text-align      : center;
+    color           : var(--on-primary);
+    background-color: var(--primary);
+    border          : 1px var(--primary) solid;
+}
+
+table,
+th,
+td {
+    border-collapse: collapse;
+}
+
+.day {
+    font-weight: 500;
+    padding    : 3px 9px;
+}
+
+tbody,
+td {
+    color : var(--on-background);
+    border: var(--table-border) 1px solid;
+}
+
+td, th{
+    max-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+td {
+    cursor           : pointer;
+    font-weight      : bold;
+    height           : 88px;
+    /* height        : 100%; */
+}
+
+.isAnotherMonth .day {
+    color: var(--on-disabled) !important;
+}
+
+td:last-child,
+td:first-child {
+    background: var(--disabled);
+}
+
+td:last-child .day,
+td:first-child .day {
+    color: var(--primary);
+}
+
+.cell {
+    height: 100%;
+    width : 100%;
+}

@@ -1,0 +1,54 @@
+.caracterCounter {
+    display        : flex;
+    justify-content: flex-end;
+}
+
+.rowForm {
+    margin-top     : 20px;
+    display        : flex;
+    justify-content: space-between;
+    flex-wrap      : wrap;
+}
+
+@media(max-width: 600px) {
+
+    input[type="color"],
+    .select,
+    .rowForm>* {
+        width: 100% !important;
+    }
+}
+
+.colorContainer {
+    margin-top    : 8px;
+    margin-bottom : 4px;
+    display       : flex;
+    flex-direction: column;
+    width         : 238px;
+}
+
+.select {
+    width: 238px;
+}
+
+input[type="color"] {
+    height    : 29px;
+    border    : none;
+    background: transparent;
+    margin    : -3px;
+    width     : 244px;
+    height    : 29px;
+}
+
+#temperature-container {
+    display       : flex;
+    flex-direction: row;
+    align-self    : left;
+    width         : 238px;
+}
+
+#temperature-min-max-container {
+    display       : flex;
+    flex-direction: column;
+    align-self    : center;
+}

@@ -1,0 +1,9 @@
+:root {
+    --primary      : #3075b5;
+    --on-primary   : #FFF;
+    --disabled     : #f2f2f2;
+    --on-disabled  : #a6a6a6;
+    --background   : #FFF;
+    --on-background: #000;
+    --table-border : #969696;
+}
