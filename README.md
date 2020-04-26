@@ -1,44 +1,42 @@
-# Ejercicio - Agenda (frontend)
+# Jobsity challenge
+Live demo: https://lsegurado-jobsity-demo.netlify.app
 
-Realizar una aplicación del tipo "Agenda de Contactos" que incluya un acceso seguro a través de formulario de login con usuario y contraseña. 
+## Assignment
+This project is designed to test your knowledge of front-end web technologies and assess your
+ability to create front-​end UI products with attention to details, cross-browser compatibility,
+standards, and reusability.
 
-Una vez en el sistema listar los contactos mostrando información básica (por ejemplo, solo nombre y apellido).  hacer click en el contacto, desplegar mayor información. 
+## Description
+The goal of this exercise is to create a demo calendar application using React, Vue or Angular.
+You should start by rendering a single month view of a calendar for the current month – along
+with the lines of the below illustration:
 
+## Mandatory Features
+* Ability to add a new "reminder" (max 30 chars) for a user entered day and time. Also,
+include a city.
+* Display reminders on the calendar view in the correct time order.
+* Allow the user to select color when creating a reminder and display it appropriately.
+* Ability to edit reminders – including changing text, city, day, time and color.
+* Add a weather service call from a free API such as ​Open Weather Map​, and get the
+weather forecast (ex. Rain) for the date of the calendar reminder based on the city.
+* Unit test the functionality: ​Ability to add a new "reminder" (max 30 chars) for a user
+entered day and time. Also, include a city.
 
-## Aclaraciones:
+## Bonus (Optional)
+* Expand the calendar to support more than the current month.
+* Properly handle overflow when multiple reminders appear on the same date.
+* Functionality to delete one or ALL the reminders for a specific day
 
-* La aplicación web debe estar desarrollada con React.js
+## Considerations
+* Redux (or any other state manager) structure of the calendar.
+* The project is totally focused on the front-end; please ignore the back-end.
+* Keep your code versioned with Git.
+* Feel free to use small helper libraries for:
+○ UI Elements.
+○ Date/Time handling.
 
-* No es necesario crear una API de servicios propia. Se recomienda utilizar https://reqres.in/ o algún servicio similar. 
-
-* Se pueden utilizar las librerías de npm que considere necesario
-
-
-## Se valorará:
-
-* Manejo de errores.
-
-* Orden y estructura en el código.
-
-* Diseño, estética y UX de la aplicación.
-
-
-## Requerimientos:
-
-
-### Formulario de Login:
-
-* Campos de login con validación: 
-    * email: requerido. Solo formato de correo válido 
-    * password: requerido
-* Campo de password con posibilidad de hacer visible la contraseña ingresada
-* Botón de acceso
-
-
-### Pantalla de Lista de contactos:
-
-* Mostrar el nombre del usuario logeado. 
-
-* Obtener del servicio un listado de contactos y mostrar información reducida. 
-
-* Al hacer click o interactuar con cada contacto, se debe mostrar mayor información. Por ejemplo: foto de perfil, email, etc.
+## Deliverables
+When you finish the assignment, send a zip file (don’t forget to include the .git/ folder.) or upload
+your project to your Git repo (Github, BitBucket, etc...) and share the repository link with your
+initial contact via email. Indicate which, if any, of the bonus tasks you completed.
+If you didn’t manage to finish everything, please tell us which parts you completed.
