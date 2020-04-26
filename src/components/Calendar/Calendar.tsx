@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { daysOfTheWeek, getCalendar, daysOfTheWeekShort } from '../../utilities/dateUitilities';
+import { daysOfTheWeek, getCalendar, daysOfTheWeekShort, isBeforeNow } from '../../utilities/dateUitilities';
 import './Calendar.css';
 import Reminder from '../../classes/Reminder';
 import { connect } from 'react-redux';
@@ -73,7 +73,7 @@ const Calendar: React.FC<CalendarProps> = (props) => {
     }
 
     function renderReminder(reminder: Reminder) {
-        return <span onClick={(event) => onClickReminderHandler(reminder, event)} key={reminder.id} style={getReminderStyle(reminder)}><span className='reminder-hours'>{getReminderHours(reminder)}</span><span className="reminder-title">{reminder.title}</span></span>
+        return <span className={isBeforeNow(reminder.date) ? "is-before-now" : undefined} onClick={(event) => onClickReminderHandler(reminder, event)} key={reminder.id} style={getReminderStyle(reminder)}><span className='reminder-hours'>{getReminderHours(reminder)}</span><span className="reminder-title">{reminder.title}</span></span>
     }
 
     function showMoreReminders(date: Date, remindersLeft: number) {

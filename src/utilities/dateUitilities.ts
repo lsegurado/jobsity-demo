@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export function getCalendar(date: Date): Array<Array<Date>> {
     const previousMonthDate = new Date(date);
     previousMonthDate.setMonth(previousMonthDate.getMonth() - 1);
@@ -52,6 +54,10 @@ export function areInTheSameDay(dateA: Date, dateB: Date): boolean {
 
 export function areDifferentDays(dateA: Date, dateB: Date): boolean {
     return !areInTheSameDay(dateA, dateB);
+}
+
+export function isBeforeNow(date: Date) {
+    return moment(date).diff(new Date()) < 0;
 }
 
 export const daysOfTheWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];

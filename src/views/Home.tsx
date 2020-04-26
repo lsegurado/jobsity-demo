@@ -15,6 +15,8 @@ import { RootState } from '../stores';
 import Reminder from '../classes/Reminder';
 import ReminderViewerModal from '../components/ReminderViewerModal/ReminderViewerModal';
 import { changeSelectedReminder } from '../stores/selectedReminderSlice';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
 type HomeProps = {
   currentCalendarDate: Date,
@@ -61,6 +63,9 @@ const Home: React.FC<HomeProps> = (props) => {
         </div>
         <Copyright />
       </main>
+      <Fab onClick={() => setReminderModalABMIsOpen(true)} className="fab" aria-label='Add new reminder' color="primary">
+        <AddIcon />
+      </Fab>
       <ReminderABMModal open={reminderModalABMIsOpen} onClose={() => setReminderModalABMIsOpen(false)} />
       <ReminderViewerModal open={reminderListModalIsOpen} onRemindersAreOver={() => setReminderListModalIsOpen(false)} onSelectReminder={(reminder: Reminder) => handleSelectReminder(reminder)} onClose={() => setReminderListModalIsOpen(false)} />
     </div>

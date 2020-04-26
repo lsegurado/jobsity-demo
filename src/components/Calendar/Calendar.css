@@ -39,10 +39,6 @@ td {
     font-weight: bold;
 }
 
-.is-another-month {
-    pointer-events: none;
-}
-
 .is-another-month .day {
     color: var(--on-disabled) !important;
 }
@@ -57,9 +53,8 @@ td:first-child .day {
     color: var(--primary);
 }
 
-.is-another-month .reminders {
-    display : none;
-    overflow: hidden;
+.is-before-now {
+    opacity: .4;
 }
 
 .reminders>* {
