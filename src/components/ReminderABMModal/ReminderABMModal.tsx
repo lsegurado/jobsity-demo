@@ -168,7 +168,7 @@ const ReminderABMModal: React.FC<ContactDetailsProps> = (props) => {
                             id="city-select"
                             className="select"
                             value={props.selectedReminder.city ? props.selectedReminder.city : null}
-                            options={props.selectedReminder.province ? props.cities.entities[props.selectedReminder.province.id] : []}
+                            options={props.selectedReminder.province ? (props.cities.entities[props.selectedReminder.province.id] ? props.cities.entities[props.selectedReminder.province.id] : []) : []}
                             autoHighlight
                             onChange={(_event: any, newValue: City | null) => props.changeSelectedReminder({ ...props.selectedReminder, city: newValue })}
                             getOptionLabel={(option) => option.name}
