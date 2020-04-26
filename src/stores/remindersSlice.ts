@@ -56,7 +56,7 @@ const removeReminderByDayAction: CaseReducer<Array<Reminder>, PayloadAction<Date
 }
 
 const remindersSlice = createSlice({
-    name: "currentCalendarSlice",
+    name: "reminders",
     initialState: loadReminders(),
     reducers: {
         addReminder: addReminderAction,

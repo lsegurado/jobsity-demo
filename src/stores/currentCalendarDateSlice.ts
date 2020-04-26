@@ -19,7 +19,7 @@ const changeCurrentCalendarDateAction: CaseReducer<Date, PayloadAction<number>> 
 }
 
 const currentCalendarDateSlice = createSlice({
-    name: "currentCalendarSlice",
+    name: "currentCalendarDate",
     initialState: new Date(),
     reducers: {
         incrementMonth: incrementMonthAction,

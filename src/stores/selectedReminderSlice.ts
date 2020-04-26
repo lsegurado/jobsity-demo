@@ -6,7 +6,7 @@ const changeSelectedReminderAction: CaseReducer<Reminder, PayloadAction<Reminder
 }
 
 const selectedReminderSlice = createSlice({
-    name: "selectedReminderSlice",
+    name: "selectedReminder",
     initialState: new Reminder(),
     reducers: {
         changeSelectedReminder: changeSelectedReminderAction
