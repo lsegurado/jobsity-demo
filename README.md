@@ -1,6 +1,10 @@
 # Jobsity challenge
 Live demo: https://lsegurado-jobsity-demo.netlify.app
 
+## How to run it
+* npm install
+* npm run run_react
+
 ## Assignment
 This project is designed to test your knowledge of front-end web technologies and assess your
 ability to create front-​end UI products with attention to details, cross-browser compatibility,

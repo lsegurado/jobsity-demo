@@ -53,6 +53,12 @@ input[type="color"] {
     align-self    : center;
 }
 
-.error-button {
-    color: var(--error);
+.title {
+    display: flex;
+}
+
+.icons-buttons {
+    margin-top  : -8px;
+    margin-right: -16px;
+    margin-left : auto;
 }

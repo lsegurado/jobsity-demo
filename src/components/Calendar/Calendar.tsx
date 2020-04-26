@@ -5,14 +5,11 @@ import Reminder from '../../classes/Reminder';
 import { connect } from 'react-redux';
 import { RootState } from '../../stores';
 import { changeSelectedReminder } from '../../stores/selectedReminderSlice';
-import { changeCurrentCalendarDate } from '../../stores/currentCalendarDateSlice';
 import { getReminderStyle, getRemindersOfDateOrdered, getReminderHours } from '../../utilities/calendarUtilities';
 
 type CalendarProps = {
-    changeCurrentCalendarDate: typeof changeCurrentCalendarDate,
     changeSelectedReminder: typeof changeSelectedReminder,
     currentCalendarDate: Date,
-    selectedReminder: Reminder,
     onClickCell: Function,
     onClickReminder: Function,
     onClickShowMoreReminders: Function,
@@ -31,9 +28,9 @@ const Calendar: React.FC<CalendarProps> = (props) => {
         props.onClickCell();
     }
 
-    function onClickShowMoreRemindersHandler(date: number, event: React.MouseEvent) {
-        props.changeCurrentCalendarDate(date);
+    function onClickShowMoreRemindersHandler(date: Date, event: React.MouseEvent) {
         event.stopPropagation();
+        props.changeSelectedReminder(new Reminder(date));
         props.onClickShowMoreReminders();
     }
 
@@ -77,7 +74,7 @@ const Calendar: React.FC<CalendarProps> = (props) => {
     }
 
     function showMoreReminders(date: Date, remindersLeft: number) {
-        return <span onClick={(event) => onClickShowMoreRemindersHandler(date.getDate(), event)}>{remindersLeft} more</span>
+        return <span onClick={(event) => onClickShowMoreRemindersHandler(date, event)}>{remindersLeft} more</span>
     }
 
     return (
@@ -111,8 +108,7 @@ const Calendar: React.FC<CalendarProps> = (props) => {
 const mapState = (state: RootState) => state;
 
 const actionCreators = {
-    changeSelectedReminder,
-    changeCurrentCalendarDate
+    changeSelectedReminder
 };
 
 export default connect(

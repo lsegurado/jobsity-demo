@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import Reminder from '../../classes/Reminder';
-import { DialogActions, Button, DialogContent, TextField } from '@material-ui/core';
+import { DialogActions, Button, DialogContent, TextField, DialogTitleProps, IconButton, Tooltip } from '@material-ui/core';
 import './ReminderABMModal.css'
 import {
     KeyboardTimePicker,
@@ -17,6 +16,12 @@ import { fetchCitiesByProvinceId, CitiesState } from '../../stores/citiesSlice';
 import WheaterViewer from '../WheaterViewer/WheaterViewer';
 import { addReminder, editReminder, removeReminderByDay, removeReminder } from '../../stores/remindersSlice';
 import { changeSelectedReminder } from '../../stores/selectedReminderSlice';
+import CloseIcon from '@material-ui/icons/Close';
+import DeleteIcon from '@material-ui/icons/Delete';
+import ClearAllIcon from '@material-ui/icons/ClearAll';
+import Typography from '@material-ui/core/Typography';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+
 type ContactDetailsProps = {
     changeSelectedReminder: typeof changeSelectedReminder,
     currentCalendarDate: Date,
@@ -98,6 +103,33 @@ const ReminderABMModal: React.FC<ContactDetailsProps> = (props) => {
         props.onClose();
     }
 
+    const DialogTitle = (dialogProps: DialogTitleProps) => {
+        return (
+            <MuiDialogTitle disableTypography className="title">
+                <Typography variant="h6">{dialogProps.children}</Typography>
+                <div className="icons-buttons">
+                    {!isNewReminder() ? (
+                        <React.Fragment>
+                            <Tooltip title="Delete all in this day" aria-label="Delete all in this day">
+                                <IconButton aria-haspopup="true" onClick={onRemoveAllReminders}>
+                                    <ClearAllIcon />
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Delete" aria-label="Delete">
+                                <IconButton aria-haspopup="true" onClick={onRemoveReminder}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </Tooltip>
+                        </React.Fragment>
+                    ) : undefined}
+                    <IconButton aria-label="close" onClick={() => props.onClose()}>
+                        <CloseIcon />
+                    </IconButton>
+                </div>
+            </MuiDialogTitle>
+        );
+    };
+
     return (
         <Dialog onClose={() => props.onClose()} maxWidth='sm' fullWidth={true} aria-labelledby="reminder-details" open={props.open}>
             <form onSubmit={onSaveReminder}>
@@ -134,7 +166,7 @@ const ReminderABMModal: React.FC<ContactDetailsProps> = (props) => {
                             id="reminder-time"
                             label="Reminder time"
                             value={props.selectedReminder.date}
-                            onChange={(newTime: any) =>handleTimeChange(newTime)}
+                            onChange={(newTime: any) => handleTimeChange(newTime)}
                             required
                             KeyboardButtonProps={{
                                 'aria-label': 'change time',
@@ -196,13 +228,6 @@ const ReminderABMModal: React.FC<ContactDetailsProps> = (props) => {
                     </div>
                 </DialogContent>
                 <DialogActions>
-                    {!isNewReminder() ? (
-                        <React.Fragment>
-                            <Button className='error-button' onClick={() => onRemoveReminder()}>Delete</Button>
-                            <Button className='error-button' onClick={() => onRemoveAllReminders()}>Delete all in this day</Button>
-                        </React.Fragment>
-                    ) : undefined
-                    }
                     <Button type="submit" variant="contained" color="primary">{getSaveText()}</Button>
                     <Button color="primary" onClick={() => props.onClose()}>Close</Button>
                 </DialogActions>

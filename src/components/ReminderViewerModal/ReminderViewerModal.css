@@ -7,3 +7,13 @@
     padding-bottom: 0px;
     border-top    : 1px white solid;
 }
+
+.title {
+    display: flex;
+}
+
+.icons-buttons {
+    margin-top  : -8px;
+    margin-right: -16px;
+    margin-left : auto;
+}

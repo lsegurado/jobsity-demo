@@ -12,24 +12,17 @@ const decrementMonthAction: CaseReducer<Date, PayloadAction<undefined>> = (state
     return newDate;
 }
 
-const changeCurrentCalendarDateAction: CaseReducer<Date, PayloadAction<number>> = (state, action) => {
-    const newDate = new Date(state);
-    newDate.setDate(action.payload);
-    return newDate;
-}
-
 const currentCalendarDateSlice = createSlice({
     name: "currentCalendarDate",
     initialState: new Date(),
     reducers: {
         incrementMonth: incrementMonthAction,
-        decrementMonth: decrementMonthAction,
-        changeCurrentCalendarDate: changeCurrentCalendarDateAction
+        decrementMonth: decrementMonthAction
     },
 });
 
 const { actions, reducer } = currentCalendarDateSlice;
 
-export const { incrementMonth, decrementMonth, changeCurrentCalendarDate } = actions;
+export const { incrementMonth, decrementMonth } = actions;
 
 export default reducer;
