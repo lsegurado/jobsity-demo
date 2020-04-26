@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { RootState } from '../index';
+import { RootState } from '../stores';
 import CitiesApiHelper from '../apiHelpers/CitiesApiHelper';
 import { City } from "../apiHelpers/Types";
 

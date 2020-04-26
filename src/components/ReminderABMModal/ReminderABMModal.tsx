@@ -12,26 +12,42 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { Province, City } from '../../apiHelpers/Types';
 import { ProvincesState, fetchProvinces } from '../../stores/provincesSlice';
 import { connect, useDispatch } from 'react-redux';
-import { RootState } from '../..';
+import { RootState } from '../../stores';
 import { fetchCitiesByProvinceId, CitiesState } from '../../stores/citiesSlice';
 import WheaterViewer from '../WheaterViewer/WheaterViewer';
-
+import { addReminder, editReminder, removeReminderByDay, removeReminder } from '../../stores/remindersSlice';
+import { changeSelectedReminder } from '../../stores/selectedReminderSlice';
 type ContactDetailsProps = {
-    selectedReminder?: Reminder,
+    changeSelectedReminder: typeof changeSelectedReminder,
+    currentCalendarDate: Date,
+    selectedReminder: Reminder,
     onClose: Function,
     open: boolean,
     provinces: ProvincesState,
-    cities: CitiesState
+    cities: CitiesState,
+    addReminder: typeof addReminder,
+    editReminder: typeof editReminder,
+    removeReminderByDay: typeof removeReminderByDay,
+    removeReminder: typeof removeReminder
 }
 
 const ReminderABMModal: React.FC<ContactDetailsProps> = (props) => {
-    const defaultReminderState = new Reminder('', new Date(), '#FF0000', undefined, undefined);
-    const [reminder, setReminder] = React.useState(defaultReminderState);
     const maxLengthReminder = 30;
     const dispatch = useDispatch();
 
     const handleDateChange = (newDate: Date) => {
-        setReminder({ ...reminder, date: newDate });
+        const updatedDate = new Date(props.selectedReminder.date);
+        updatedDate.setDate(newDate.getDate());
+        updatedDate.setMonth(newDate.getMonth());
+        updatedDate.setFullYear(newDate.getFullYear())
+        props.changeSelectedReminder({ ...props.selectedReminder, date: updatedDate });
+    }
+
+    const handleTimeChange = (newTime: Date) => {
+        const updatedDate = new Date(props.selectedReminder.date);
+        updatedDate.setHours(newTime.getHours());
+        updatedDate.setMinutes(newTime.getMinutes());
+        props.changeSelectedReminder({ ...props.selectedReminder, date: updatedDate });
     }
 
     useEffect(() => {
@@ -39,35 +55,66 @@ const ReminderABMModal: React.FC<ContactDetailsProps> = (props) => {
     }, [])
 
     useEffect(() => {
-        if (reminder.province) {
-            dispatch(fetchCitiesByProvinceId(reminder.province.id));
+        if (props.selectedReminder.province) {
+            dispatch(fetchCitiesByProvinceId(props.selectedReminder.province.id));
         }
-    }, [reminder.province])
+    }, [props.selectedReminder.province])
 
-    function onSaveReminder(event: any) {
+    function onSaveReminder(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        setReminder(defaultReminderState);
+        const newReminder = props.selectedReminder;
+
+        if (newReminder.id) {
+            props.editReminder(newReminder);
+        } else {
+            props.addReminder(newReminder);
+        }
+        props.changeSelectedReminder(new Reminder());
+        props.onClose();
+    }
+
+    function isNewReminder() {
+        return props.selectedReminder.id === undefined;
+    }
+
+    function getSaveText() {
+        return isNewReminder() ? 'Save' : 'Update';
+    }
+
+    function getTitleText() {
+        return isNewReminder() ? 'New reminder' : 'Edit reminder';
+    }
+
+    function onRemoveReminder() {
+        if (props.selectedReminder.id) {
+            props.removeReminder(props.selectedReminder.id);
+        }
+        props.onClose();
+    }
+
+    function onRemoveAllReminders() {
+        props.removeReminderByDay(props.selectedReminder.date);
         props.onClose();
     }
 
     return (
         <Dialog onClose={() => props.onClose()} maxWidth='sm' fullWidth={true} aria-labelledby="reminder-details" open={props.open}>
             <form onSubmit={onSaveReminder}>
-                <DialogTitle id="reminder-details">Reminder details</DialogTitle>
+                <DialogTitle id="reminder-details">{getTitleText()}</DialogTitle>
                 <DialogContent>
                     <TextField
                         autoFocus
-                        value={reminder.title}
+                        value={props.selectedReminder.title}
                         margin="dense"
                         id="title"
                         placeholder="Add title"
                         type="text"
-                        onInput={(event: any) => setReminder({ ...reminder, title: event.target.value })}
+                        onInput={(event: any) => props.changeSelectedReminder({ ...props.selectedReminder, title: event.target.value })}
                         required
                         fullWidth
                         inputProps={{ maxLength: maxLengthReminder }}
-                        helperText={<span className="caracterCounter">{`${reminder.title.length} / ${maxLengthReminder}`}</span>}
+                        helperText={<span className="caracterCounter">{`${props.selectedReminder.title.length} / ${maxLengthReminder}`}</span>}
                     />
                     <div className="rowForm">
                         <KeyboardDatePicker
@@ -75,8 +122,8 @@ const ReminderABMModal: React.FC<ContactDetailsProps> = (props) => {
                             id="reminder-date"
                             label="Reminder date"
                             format="MM/dd/yyyy"
-                            value={reminder.date}
-                            onChange={handleDateChange}
+                            value={props.selectedReminder.date}
+                            onChange={(newDate: any) => handleDateChange(newDate)}
                             required
                             KeyboardButtonProps={{
                                 'aria-label': 'change date',
@@ -86,8 +133,8 @@ const ReminderABMModal: React.FC<ContactDetailsProps> = (props) => {
                             margin="dense"
                             id="reminder-time"
                             label="Reminder time"
-                            value={reminder.date}
-                            onChange={handleDateChange}
+                            value={props.selectedReminder.date}
+                            onChange={(newTime: any) =>handleTimeChange(newTime)}
                             required
                             KeyboardButtonProps={{
                                 'aria-label': 'change time',
@@ -98,10 +145,10 @@ const ReminderABMModal: React.FC<ContactDetailsProps> = (props) => {
                         <Autocomplete
                             id="province-select"
                             className="select"
-                            value={reminder.province ? reminder.province : { name: '' }}
+                            value={props.selectedReminder.province ? props.selectedReminder.province : null}
                             options={props.provinces.entities}
                             autoHighlight
-                            onChange={(_event: any, newValue: Province) => setReminder({ ...reminder, province: newValue, city: undefined })}
+                            onChange={(_event: any, newValue: Province | null) => props.changeSelectedReminder({ ...props.selectedReminder, province: newValue, city: undefined })}
                             getOptionLabel={(option) => option.name}
                             renderOption={(option) => option.name}
                             renderInput={(params) => (
@@ -113,7 +160,6 @@ const ReminderABMModal: React.FC<ContactDetailsProps> = (props) => {
                                     fullWidth
                                     inputProps={{
                                         ...params.inputProps,
-                                        autoComplete: 'new-password', // disable autocomplete and autofill
                                     }}
                                 />
                             )}
@@ -121,10 +167,10 @@ const ReminderABMModal: React.FC<ContactDetailsProps> = (props) => {
                         <Autocomplete
                             id="city-select"
                             className="select"
-                            value={reminder.city ? reminder.city : { name: '' }}
-                            options={reminder.province ? props.cities.entities[reminder.province.id] : []}
+                            value={props.selectedReminder.city ? props.selectedReminder.city : null}
+                            options={props.selectedReminder.province ? props.cities.entities[props.selectedReminder.province.id] : []}
                             autoHighlight
-                            onChange={(_event: any, newValue: City) => setReminder({ ...reminder, city: newValue !== null ? newValue : undefined })}
+                            onChange={(_event: any, newValue: City | null) => props.changeSelectedReminder({ ...props.selectedReminder, city: newValue })}
                             getOptionLabel={(option) => option.name}
                             renderOption={(option) => option.name}
                             renderInput={(params) => (
@@ -136,7 +182,6 @@ const ReminderABMModal: React.FC<ContactDetailsProps> = (props) => {
                                     fullWidth
                                     inputProps={{
                                         ...params.inputProps,
-                                        autoComplete: 'new-password', // disable autocomplete and autofill
                                     }}
                                 />
                             )}
@@ -145,13 +190,20 @@ const ReminderABMModal: React.FC<ContactDetailsProps> = (props) => {
                     <div className="rowForm">
                         <div className="colorContainer">
                             <label htmlFor="color">Color</label>
-                            <input type="color" name="color" value={reminder.color} onChange={(event) => setReminder({ ...reminder, color: event.target.value })} />
+                            <input type="color" name="color" value={props.selectedReminder.color} onChange={(event) => props.changeSelectedReminder({ ...props.selectedReminder, color: event.target.value })} />
                         </div>
-                        <WheaterViewer city={reminder.city} date={reminder.date} />
+                        <WheaterViewer city={props.selectedReminder.city} date={props.selectedReminder.date} />
                     </div>
                 </DialogContent>
                 <DialogActions>
-                    <Button type="submit" color="primary">Save Reminder</Button>
+                    {!isNewReminder() ? (
+                        <React.Fragment>
+                            <Button className='error-button' onClick={() => onRemoveReminder()}>Delete</Button>
+                            <Button className='error-button' onClick={() => onRemoveAllReminders()}>Delete all in this day</Button>
+                        </React.Fragment>
+                    ) : undefined
+                    }
+                    <Button type="submit" variant="contained" color="primary">{getSaveText()}</Button>
                     <Button color="primary" onClick={() => props.onClose()}>Close</Button>
                 </DialogActions>
             </form>
@@ -159,8 +211,11 @@ const ReminderABMModal: React.FC<ContactDetailsProps> = (props) => {
     );
 }
 
-const mapState = (currentCalendarDate: RootState) => currentCalendarDate;
+const mapState = (state: RootState) => state;
+
+const actionCreators = { addReminder, editReminder, removeReminder, removeReminderByDay, changeSelectedReminder };
 
 export default connect(
-    mapState
+    mapState,
+    actionCreators
 )(ReminderABMModal);

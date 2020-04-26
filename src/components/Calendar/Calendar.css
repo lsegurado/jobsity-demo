@@ -5,7 +5,6 @@ table {
 }
 
 thead {
-    text-align      : center;
     color           : var(--on-primary);
     background-color: var(--primary);
     border          : 1px var(--primary) solid;
@@ -28,21 +27,23 @@ td {
     border: var(--table-border) 1px solid;
 }
 
-td, th{
-    max-width: 0;
-    overflow: hidden;
+td,
+th {
+    overflow     : hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    white-space  : nowrap;
 }
 
 td {
-    cursor           : pointer;
-    font-weight      : bold;
-    height           : 88px;
-    /* height        : 100%; */
+    cursor     : pointer;
+    font-weight: bold;
 }
 
-.isAnotherMonth .day {
+.is-another-month {
+    pointer-events: none;
+}
+
+.is-another-month .day {
     color: var(--on-disabled) !important;
 }
 
@@ -56,7 +57,88 @@ td:first-child .day {
     color: var(--primary);
 }
 
-.cell {
-    height: 100%;
-    width : 100%;
+.is-another-month .reminders {
+    display : none;
+    overflow: hidden;
+}
+
+.reminders>* {
+    position     : relative;
+    overflow     : hidden;
+    border-radius: 0px 8px 8px 0px;
+    padding      : 0px 8px;
+    line-height  : 20px;
+    font-size    : 12px;
+    font-weight  : 500;
+    height       : 22px;
+    border-top   : 1px white solid;
+    display      : flex;
+}
+
+.reminder-title {
+    text-overflow: ellipsis;
+    overflow     : hidden;
+}
+
+.short-days-of-the-week {
+    display: none;
+}
+
+@media(max-width: 800px) {
+    .reminder-hours {
+        display: none;
+    }
+
+    .long-days-of-the-week {
+        display: none;
+    }
+
+    .short-days-of-the-week {
+        display: inherit;
+    }
+}
+
+.reminder-hours {
+    padding-right: 3px;
+}
+
+.reminders {
+    display : block;
+    overflow: hidden;
+}
+
+table {
+    flex-direction: column;
+}
+
+table,
+table * {
+    display: flex;
+}
+
+tbody {
+    flex-direction: column;
+    width         : 100%;
+    height        : 100%;
+}
+
+tbody>tr {
+    height: 16.65%;
+}
+
+tr {
+    display       : flex;
+    flex-direction: row;
+    width         : 100%;
+}
+
+th {
+    justify-content: center;
+}
+
+td,
+th {
+    flex-direction: column;
+    width         : 14.28%;
+    padding       : 0px;
 }

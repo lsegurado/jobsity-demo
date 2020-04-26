@@ -2,7 +2,7 @@ import { lazy, LazyExoticComponent, FunctionComponent } from "react";
 
 export const routes: Array<RouteConfig> = new Array<RouteConfig>(
   {
-    path: "/home",
+    path: "/",
     name: "home",
     component: lazy(() => import("./views/Home"))
   },

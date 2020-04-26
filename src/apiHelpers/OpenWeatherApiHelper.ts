@@ -17,8 +17,6 @@ export default class OpenWeatherApiHelper extends ApiHelperBase {
         const today = new Date();
         const requestedDateMoment = moment(requestedDate);
         const differenceInDays = requestedDateMoment.diff(moment(new Date(today.getFullYear(), today.getMonth(), today.getDate())), 'days') + 1;
-        console.log(requestedDate);
-        console.log(differenceInDays);
         if (differenceInDays <= this.maxDays && differenceInDays >= 1) {
             const response = await super.fetch<WeatherResponse>('/forecast/daily', { lat: lat, lon: lon, cnt: differenceInDays, appid: this.apiKey, units: this.units }, {
                 method: 'GET'

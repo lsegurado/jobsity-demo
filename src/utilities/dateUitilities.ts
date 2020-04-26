@@ -33,7 +33,7 @@ export function getCalendar(date: Date): Array<Array<Date>> {
                 isNextMonth = true;
                 dayToPrint = 1;
             }
-            const dateMonth = isNextMonth ? nextMonthDate: date;
+            const dateMonth = isNextMonth ? nextMonthDate : date;
             rowOfCalendar[j] = new Date(dateMonth.getFullYear(), dateMonth.getMonth(), dayToPrint);
             dayToPrint++;
         }
@@ -46,10 +46,13 @@ function getLastDayOfMonth(date: Date): number {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
 }
 
-export interface day {
-    isOutsideOfCurrentMonth: boolean,
-    isEndOfTheWeek: boolean,
-    number: number
+export function areInTheSameDay(dateA: Date, dateB: Date): boolean {
+    return dateA.getFullYear() === dateB.getFullYear() && dateA.getMonth() === dateB.getMonth() && dateA.getDate() === dateB.getDate();
+}
+
+export function areDifferentDays(dateA: Date, dateB: Date): boolean {
+    return !areInTheSameDay(dateA, dateB);
 }
 
 export const daysOfTheWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+export const daysOfTheWeekShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];

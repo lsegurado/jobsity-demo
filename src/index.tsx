@@ -10,40 +10,22 @@ import { BrowserRouter } from 'react-router-dom';
 import Router from './components/Router';
 import DateFnsUtils from '@date-io/date-fns';
 import {
-    MuiPickersUtilsProvider
+  MuiPickersUtilsProvider
 } from '@material-ui/pickers';
-import { Provider, useDispatch } from 'react-redux';
-
-import currentCalendarDateReducer from './stores/currentCalendarDateSlice';
-import provincesReducer from './stores/provincesSlice';
-import citiesReducer from './stores/citiesSlice';
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
-const store = configureStore({
-  reducer: {
-    currentCalendarDate: currentCalendarDateReducer,
-    provinces: provincesReducer,
-    cities: citiesReducer
-  },
-  middleware: getDefaultMiddleware({
-    serializableCheck: false,
-  }),
-})
-
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch
-export const useAppDispatch = () => useDispatch<AppDispatch>()
+import { Provider } from 'react-redux';
+import store from './stores';
 
 ReactDOM.render(
-    <Provider store={store}>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <BrowserRouter>
-                    <Router />
-                </BrowserRouter>
-            </ThemeProvider>
-        </MuiPickersUtilsProvider>
-    </Provider>, document.getElementById('root')
+  <Provider store={store}>
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <BrowserRouter>
+          <Router />
+        </BrowserRouter>
+      </ThemeProvider>
+    </MuiPickersUtilsProvider>
+  </Provider>, document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change
